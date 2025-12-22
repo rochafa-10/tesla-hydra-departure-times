@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.13
+// @version      1.14
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -92,8 +92,8 @@
     };
 
     const STYLES = {
-        urgentMinutes: 30,
-        warningMinutes: 60,
+        urgentMinutes: 10,      // Red if departing within 10 minutes
+        warningMinutes: 30,      // Yellow if departing within 30 minutes
         colors: {
             urgent: '#ff4444',
             warning: '#ffaa00',
@@ -107,9 +107,9 @@
     // ========================================
     const ALERT_CONFIG = {
         // Alert thresholds (in minutes before departure)
-        criticalAlert: 15,      // Critical alert at 15 minutes
+        criticalAlert: 10,      // Critical alert at 10 minutes (urgent)
         warningAlert: 30,       // Warning alert at 30 minutes
-        earlyAlert: 60,         // Early alert at 60 minutes
+        earlyAlert: 30,         // Early alert at 30 minutes
         
         // Enable/disable alert types
         enableBrowserNotifications: true,  // Browser desktop notifications
@@ -489,15 +489,15 @@
                 <div style="display: flex; flex-direction: column; gap: 6px;">
                     <span style="display: flex; align-items: center; gap: 6px;">
                         <span style="width: 16px; height: 16px; background: ${STYLES.colors.urgent}; border-radius: 2px; display: inline-block;"></span>
-                        &lt;30m (Urgent)
+                        &lt;10m (Urgent)
                     </span>
                     <span style="display: flex; align-items: center; gap: 6px;">
                         <span style="width: 16px; height: 16px; background: ${STYLES.colors.warning}; border-radius: 2px; display: inline-block;"></span>
-                        &lt;1h (Warning)
+                        &lt;30m (Warning)
                     </span>
                     <span style="display: flex; align-items: center; gap: 6px;">
                         <span style="width: 16px; height: 16px; background: ${STYLES.colors.normal}; border-radius: 2px; display: inline-block;"></span>
-                        &gt;1h (Normal)
+                        &gt;30m (Normal)
                     </span>
                 </div>
                 <div style="margin-top: 8px; color: #666; font-size: 10px; border-top: 1px solid #eee; padding-top: 8px;">

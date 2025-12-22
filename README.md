@@ -6,9 +6,9 @@ Tampermonkey userscript that displays trailer departure times on the Tesla Hydra
 
 - ✅ Automatically adds "Depart" column to trailer list
 - ✅ Color-coded urgency indicators:
-  - 🔴 Red: Departing within 30 minutes (urgent!)
-  - 🟡 Yellow: Departing within 1 hour (warning)
-  - 🟢 Green: Departing in more than 1 hour (normal)
+  - 🔴 Red: Departing within 10 minutes (urgent!)
+  - 🟡 Yellow: Departing within 30 minutes (warning)
+  - 🟢 Green: Departing in more than 30 minutes (normal)
 - ✅ Shows time until departure (e.g., "2h 11m")
 - ✅ Hover tooltip with full schedule (Pick, Pack, Load, Close, Depart)
 - ✅ Auto-updates every 30 seconds
@@ -18,7 +18,7 @@ Tampermonkey userscript that displays trailer departure times on the Tesla Hydra
   - 📢 Visual popup alerts on page
   - 🔊 Sound alerts (critical/warning beeps)
   - 💬 Microsoft Teams webhook integration (optional)
-- ✅ Configurable alert thresholds (critical at 15min, warning at 30min, early at 60min)
+- ✅ Configurable alert thresholds (critical at 10min, warning at 30min, early at 30min)
 - ✅ Alert cooldown system prevents notification spam
 
 ## Screenshots
@@ -102,9 +102,9 @@ The script includes multiple alert types to prevent missing trailer departures:
 ```javascript
 const ALERT_CONFIG = {
     // Alert thresholds (minutes before departure)
-    criticalAlert: 15,      // Critical alert at 15 minutes
+    criticalAlert: 10,      // Critical alert at 10 minutes (urgent)
     warningAlert: 30,       // Warning alert at 30 minutes
-    earlyAlert: 60,         // Early alert at 60 minutes
+    earlyAlert: 30,         // Early alert at 30 minutes
     
     // Enable/disable alert types
     enableBrowserNotifications: true,  // Desktop notifications
@@ -208,12 +208,6 @@ For issues or questions:
 - Contact the script author
 
 ## Changelog
-
-### Version 1.13
-- Fixed time remaining not updating automatically
-- Added logging to track update cycles
-- Improved error handling in updateDepartureCells function
-- Added immediate update after initialization
 
 ### Version 1.12
 - Added multiple alert types: browser notifications, visual popups, sound alerts
