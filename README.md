@@ -96,6 +96,8 @@ const STYLES = {
 - `TRK3-121925-28695` → Route 3
 - `T4-121925-480660` → Route 4
 - `FEDEXEXPRESSFREIGHT...` → No schedule (shows "—")
+- `LOCKPORT-PTLZ240162-12/22` → LOCKPORT route
+- `SCARBOROUGH-PF5345-12/22/25` → SCARBOROUGH route
 
 ## Troubleshooting
 
@@ -152,6 +154,22 @@ For issues or questions:
 
 ## Changelog
 
+### Version 1.8
+- Fixed GDC route detection for formats like "LOCKPORT-PTLZ240162-12/22"
+- Improved trailer name matching to include all GDC destinations
+- Added debug logging for GDC trailers
+- Fixed tooltip labels for non-milkrun routes
+
+### Version 1.7
+- Added GDC routes: Lockport, Tampa, Tilburg, Greenville, Scarborough
+- Improved route detection for destination-based trailers
+- Updated schedule configuration
+
+### Version 1.6
+- Added GitHub auto-update support (@updateURL and @downloadURL)
+- Configured for automatic updates from GitHub repository
+- Improved version management
+
 ### Version 1.5
 - Added visual indicator when script loads
 - Improved iframe detection
@@ -172,4 +190,3 @@ For issues or questions:
 - Initial release
 - Basic departure time display
 - Color-coded urgency
-
