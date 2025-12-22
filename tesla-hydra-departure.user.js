@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
 // @grant        none
 // @run-at       document-idle
+// @updateURL    https://raw.githubusercontent.com/rochafa-10/tesla-hydra-departure-times/main/tesla-hydra-departure.user.js
+// @downloadURL  https://raw.githubusercontent.com/rochafa-10/tesla-hydra-departure-times/main/tesla-hydra-departure.user.js
 // ==/UserScript==
 
 (function() {
