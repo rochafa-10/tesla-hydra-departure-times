@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.12
+// @version      1.13
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -419,22 +419,41 @@
 
     function updateDepartureCells() {
         const iframeDoc = getIframeDocument();
-        if (!iframeDoc) return;
+        if (!iframeDoc) {
+            console.log('[Hydra Departure] Cannot access iframe for update');
+            return;
+        }
 
-        iframeDoc.querySelectorAll('.departure-col-data').forEach(cell => {
-            const routeNum = cell.dataset.routeNum;
-            if (!routeNum || routeNum === 'unknown') return;
-            
-            const schedule = DEPARTURE_SCHEDULE[routeNum];
-            if (!schedule || !schedule.depart) return;
-            
-            const departTime = schedule.depart;
-            const color = getUrgencyColor(departTime);
-            const timeUntil = formatTimeUntil(departTime);
-            
-            cell.style.backgroundColor = color;
-            cell.innerHTML = `${departTime}<br><small style="font-size: 11px;">${timeUntil}</small>`;
+        const cells = iframeDoc.querySelectorAll('.departure-col-data');
+        if (cells.length === 0) {
+            console.log('[Hydra Departure] No departure cells found to update');
+            return;
+        }
+
+        let updatedCount = 0;
+        cells.forEach(cell => {
+            try {
+                const routeNum = cell.dataset.routeNum;
+                if (!routeNum || routeNum === 'unknown') return;
+                
+                const schedule = DEPARTURE_SCHEDULE[routeNum];
+                if (!schedule || !schedule.depart) return;
+                
+                const departTime = schedule.depart;
+                const color = getUrgencyColor(departTime);
+                const timeUntil = formatTimeUntil(departTime);
+                
+                cell.style.backgroundColor = color;
+                cell.innerHTML = `${departTime}<br><small style="font-size: 11px;">${timeUntil}</small>`;
+                updatedCount++;
+            } catch (e) {
+                console.error('[Hydra Departure] Error updating cell:', e);
+            }
         });
+        
+        if (updatedCount > 0) {
+            console.log(`[Hydra Departure] Updated ${updatedCount} departure cells`);
+        }
     }
 
     function addInfoPanel() {
@@ -590,15 +609,22 @@
         
         setupObserver();
         
-        // Refresh colors/times periodically
+        // Refresh colors/times periodically (every 30 seconds)
         refreshInterval = setInterval(() => {
+            console.log('[Hydra Departure] Running scheduled update...');
             updateDepartureCells();
-        }, 30000);
+        }, 30000); // 30 seconds = 30000ms
         
         // Check for alerts periodically (every 30 seconds)
         setInterval(() => {
             checkAndAlertTrailers();
-        }, 30000);
+        }, 30000); // 30 seconds = 30000ms
+        
+        // Also update immediately after initialization (after a short delay)
+        setTimeout(() => {
+            console.log('[Hydra Departure] Running initial update...');
+            updateDepartureCells();
+        }, 5000);
         
         // Request notification permission on startup
         if (ALERT_CONFIG.enableBrowserNotifications) {
