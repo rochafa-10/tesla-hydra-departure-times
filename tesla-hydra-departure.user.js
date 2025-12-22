@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.10
+// @version      1.11
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -123,9 +123,11 @@
         if (upperName.startsWith('SCARBOROUGH') || upperName.includes('-SCARBOROUGH') || upperName.includes('_SCARBOROUGH')) return 'SCARBOROUGH';
         
         // Check for carrier routes (UPS, ODFL, FedEx)
-        // Examples: "DGUPS12/22/2025", "VORUPS12222512PM", "HVBODFL-12/22/25", "ODFL-493528-12/22/25-DS", or "FEDEXEXPRESSFREIGHT..."
-        if (upperName.includes('DGUPS') || upperName.includes('VORUPS') || upperName.includes('UPS')) return 'UPS';
-        if (upperName.includes('HVBODFL') || upperName.includes('ODFL')) return 'ODFL';
+        // Check for UPS anywhere in the name (handles DGUPS, VORUPS, and any other UPS variant)
+        if (upperName.includes('UPS')) return 'UPS';
+        // Check for ODFL anywhere in the name (handles HVBODFL, ODFL-, and any other ODFL variant)
+        if (upperName.includes('ODFL')) return 'ODFL';
+        // Check for FEDEX anywhere in the name
         if (upperName.includes('FEDEX')) return 'FEDEX';
         
         // Match TRUCK or TRK followed by number
@@ -273,8 +275,12 @@
             const allElements = Array.from(iframeDoc.querySelectorAll('ion-button, button, ion-item'));
             const trailerElements = allElements.filter(el => {
                 const text = (el.textContent || el.innerText || '').trim();
-                // Match trailer patterns: FEDEX..., TRUCK..., TRK..., T4-..., GDC destinations, UPS variants, ODFL variants, etc.
-                const isTrailer = /^(FEDEX|TRUCK\d+|TRK\d+|T\d+-|LOCKPORT|TAMPA|TILBURG|GREENVILLE|SCARBOROUGH|DGUPS|VORUPS|HVBODFL|ODFL)/i.test(text) && text.length > 5 && text.length < 100;
+                // Match trailer patterns: 
+                // - Starts with specific patterns (TRUCK, TRK, T4-, GDC destinations, etc.)
+                // - OR contains UPS, ODFL, or FEDEX anywhere (handles all variants)
+                const startsWithPattern = /^(FEDEX|TRUCK\d+|TRK\d+|T\d+-|LOCKPORT|TAMPA|TILBURG|GREENVILLE|SCARBOROUGH|DGUPS|VORUPS|HVBODFL|ODFL)/i.test(text);
+                const containsCarrier = /UPS|ODFL|FEDEX/i.test(text);
+                const isTrailer = (startsWithPattern || containsCarrier) && text.length > 5 && text.length < 100;
                 return isTrailer;
             });
 

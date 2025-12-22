@@ -156,6 +156,11 @@ For issues or questions:
 
 ## Changelog
 
+### Version 1.11
+- Improved UPS detection to match any trailer containing "UPS" (not just specific prefixes)
+- Improved ODFL detection to match any trailer containing "ODFL" (not just specific prefixes)
+- Updated filter pattern to be more flexible for carrier routes
+
 ### Version 1.10
 - Fixed route detection for VORUPS trailers (now detects as UPS route)
 - Fixed route detection for ODFL- prefix trailers (e.g., "ODFL-493528-12/22/25-DS")
@@ -202,3 +207,4 @@ For issues or questions:
 - Initial release
 - Basic departure time display
 - Color-coded urgency
+
