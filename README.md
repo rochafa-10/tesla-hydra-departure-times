@@ -209,6 +209,17 @@ For issues or questions:
 
 ## Changelog
 
+### Version 1.14
+- Updated urgency thresholds: Urgent < 10min, Warning < 30min, Normal > 30min
+- Adjusted alert thresholds to match new urgency levels
+- Updated info panel legend to reflect new thresholds
+
+### Version 1.13
+- Fixed time remaining not updating automatically
+- Added logging to track update cycles
+- Improved error handling in updateDepartureCells function
+- Added immediate update after initialization
+
 ### Version 1.12
 - Added multiple alert types: browser notifications, visual popups, sound alerts
 - Added Microsoft Teams webhook integration (optional, requires setup)
