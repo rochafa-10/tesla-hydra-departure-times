@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.6
+// @version      1.7
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -79,6 +79,12 @@
         '31': { pick: '19:10', pack: '20:10', load: '21:10', close: '21:25', depart: '21:30' },
         '35': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
         '36': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
+        // GDC Routes
+        'LOCKPORT': { pick: '12:10', pack: '13:10', load: '14:10', close: '14:25', depart: '14:30' },
+        'TAMPA': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
+        'TILBURG': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
+        'GREENVILLE': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
+        'SCARBOROUGH': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
     };
 
     const STYLES = {
@@ -99,8 +105,19 @@
     function extractRouteNumber(trailerName) {
         if (!trailerName) return null;
         const upperName = trailerName.toUpperCase();
+        
+        // Check for special routes first
         if (upperName.includes('INTERNATIONAL')) return 'INTERNATIONAL';
         if (upperName.includes('NON MILK') || upperName.includes('NONMILK')) return 'NON MILK RUN';
+        
+        // Check for GDC destinations
+        if (upperName.includes('LOCKPORT')) return 'LOCKPORT';
+        if (upperName.includes('TAMPA')) return 'TAMPA';
+        if (upperName.includes('TILBURG')) return 'TILBURG';
+        if (upperName.includes('GREENVILLE')) return 'GREENVILLE';
+        if (upperName.includes('SCARBOROUGH')) return 'SCARBOROUGH';
+        
+        // Match TRUCK or TRK followed by number
         const match = upperName.match(/(?:TRUCK|TRK)(\d+)/);
         if (match) return match[1];
         // Also handle T4, T5, etc.
