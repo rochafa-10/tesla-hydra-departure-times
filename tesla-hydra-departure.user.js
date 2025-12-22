@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.11
+// @version      1.12
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -101,6 +101,35 @@
             unknown: '#888888'
         }
     };
+
+    // ========================================
+    // ALERT CONFIGURATION
+    // ========================================
+    const ALERT_CONFIG = {
+        // Alert thresholds (in minutes before departure)
+        criticalAlert: 15,      // Critical alert at 15 minutes
+        warningAlert: 30,       // Warning alert at 30 minutes
+        earlyAlert: 60,         // Early alert at 60 minutes
+        
+        // Enable/disable alert types
+        enableBrowserNotifications: true,  // Browser desktop notifications
+        enableVisualAlerts: true,          // Visual popup alerts on page
+        enableSoundAlerts: true,           // Sound alerts
+        enableTeamsAlerts: false,          // Microsoft Teams webhook (requires setup)
+        
+        // Teams webhook URL (set this to your Teams webhook URL)
+        // To get a webhook: Teams channel → Connectors → Incoming Webhook
+        teamsWebhookUrl: '',  // Example: 'https://outlook.office.com/webhook/...'
+        
+        // Alert cooldown (minutes) - prevents spam for same trailer
+        alertCooldown: 5,
+        
+        // Sound settings
+        soundVolume: 0.5,  // 0.0 to 1.0
+    };
+
+    // Track alerted trailers to prevent spam
+    const alertedTrailers = new Map(); // trailerName -> lastAlertTime
 
     // ========================================
     // HELPER FUNCTIONS
@@ -565,6 +594,16 @@
         refreshInterval = setInterval(() => {
             updateDepartureCells();
         }, 30000);
+        
+        // Check for alerts periodically (every 30 seconds)
+        setInterval(() => {
+            checkAndAlertTrailers();
+        }, 30000);
+        
+        // Request notification permission on startup
+        if (ALERT_CONFIG.enableBrowserNotifications) {
+            requestNotificationPermission();
+        }
         
         console.log('[Hydra Departure] Initialized successfully!');
     }

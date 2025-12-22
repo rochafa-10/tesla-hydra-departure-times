@@ -13,6 +13,13 @@ Tampermonkey userscript that displays trailer departure times on the Tesla Hydra
 - ✅ Hover tooltip with full schedule (Pick, Pack, Load, Close, Depart)
 - ✅ Auto-updates every 30 seconds
 - ✅ Handles dynamic content (new trailers added automatically)
+- ✅ **Multiple alert types** to prevent missing departures:
+  - 🔔 Browser desktop notifications
+  - 📢 Visual popup alerts on page
+  - 🔊 Sound alerts (critical/warning beeps)
+  - 💬 Microsoft Teams webhook integration (optional)
+- ✅ Configurable alert thresholds (critical at 15min, warning at 30min, early at 60min)
+- ✅ Alert cooldown system prevents notification spam
 
 ## Screenshots
 
@@ -79,6 +86,52 @@ const STYLES = {
     // ...
 };
 ```
+
+### Configure Alerts
+
+The script includes multiple alert types to prevent missing trailer departures:
+
+**Alert Types:**
+- **Browser Notifications**: Desktop notifications (requires permission)
+- **Visual Popups**: On-page alert banners
+- **Sound Alerts**: Audio beeps for critical/warning situations
+- **Teams Integration**: Microsoft Teams webhook messages (optional)
+
+**Configure Alert Settings:**
+
+```javascript
+const ALERT_CONFIG = {
+    // Alert thresholds (minutes before departure)
+    criticalAlert: 15,      // Critical alert at 15 minutes
+    warningAlert: 30,       // Warning alert at 30 minutes
+    earlyAlert: 60,         // Early alert at 60 minutes
+    
+    // Enable/disable alert types
+    enableBrowserNotifications: true,  // Desktop notifications
+    enableVisualAlerts: true,          // Visual popups
+    enableSoundAlerts: true,           // Sound alerts
+    enableTeamsAlerts: false,          // Teams webhook
+    
+    // Teams webhook URL (get from Teams channel → Connectors → Incoming Webhook)
+    teamsWebhookUrl: '',  // Example: 'https://outlook.office.com/webhook/...'
+    
+    // Alert cooldown (minutes) - prevents spam
+    alertCooldown: 5,
+    
+    // Sound volume (0.0 to 1.0)
+    soundVolume: 0.5,
+};
+```
+
+**Setting up Teams Alerts:**
+
+1. Go to your Teams channel
+2. Click **"..."** (More options) → **Connectors**
+3. Search for **"Incoming Webhook"** and click **Configure**
+4. Give it a name (e.g., "Trailer Alerts") and click **Create**
+5. Copy the webhook URL
+6. Paste it into `teamsWebhookUrl` in the script
+7. Set `enableTeamsAlerts: true`
 
 ## How It Works
 
@@ -155,6 +208,14 @@ For issues or questions:
 - Contact the script author
 
 ## Changelog
+
+### Version 1.12
+- Added multiple alert types: browser notifications, visual popups, sound alerts
+- Added Microsoft Teams webhook integration (optional, requires setup)
+- Configurable alert thresholds (critical at 15min, warning at 30min, early at 60min)
+- Alert cooldown system to prevent spam
+- Visual popup alerts with auto-dismiss
+- Sound alerts with different patterns for critical/warning
 
 ### Version 1.11
 - Improved UPS detection to match any trailer containing "UPS" (not just specific prefixes)
