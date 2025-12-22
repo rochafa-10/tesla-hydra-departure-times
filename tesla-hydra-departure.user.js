@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.9
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -85,6 +85,10 @@
         'TILBURG': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
         'GREENVILLE': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
         'SCARBOROUGH': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
+        // Carrier Routes
+        'UPS': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
+        'ODFL': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
+        'FEDEX': { pick: '12:00', pack: '13:00', load: '14:00', close: '14:15', depart: '14:30' },
     };
 
     const STYLES = {
@@ -117,6 +121,12 @@
         if (upperName.startsWith('TILBURG') || upperName.includes('-TILBURG') || upperName.includes('_TILBURG')) return 'TILBURG';
         if (upperName.startsWith('GREENVILLE') || upperName.includes('-GREENVILLE') || upperName.includes('_GREENVILLE')) return 'GREENVILLE';
         if (upperName.startsWith('SCARBOROUGH') || upperName.includes('-SCARBOROUGH') || upperName.includes('_SCARBOROUGH')) return 'SCARBOROUGH';
+        
+        // Check for carrier routes (UPS, ODFL, FedEx)
+        // Examples: "DGUPS12/22/2025" or "HVBODFL-12/22/25" or "FEDEXEXPRESSFREIGHT..."
+        if (upperName.includes('DGUPS') || upperName.startsWith('UPS')) return 'UPS';
+        if (upperName.includes('HVBODFL') || upperName.includes('ODFL')) return 'ODFL';
+        if (upperName.includes('FEDEX')) return 'FEDEX';
         
         // Match TRUCK or TRK followed by number
         const match = upperName.match(/(?:TRUCK|TRK)(\d+)/);
@@ -341,7 +351,7 @@
                     departCell.innerHTML = `${departTime}<br><small style="font-size: 11px;">${timeUntil}</small>`;
                     
                     if (schedule) {
-                        const routeLabel = ['LOCKPORT', 'TAMPA', 'TILBURG', 'GREENVILLE', 'SCARBOROUGH', 'INTERNATIONAL', 'NON MILK RUN'].includes(routeNum) 
+                        const routeLabel = ['LOCKPORT', 'TAMPA', 'TILBURG', 'GREENVILLE', 'SCARBOROUGH', 'INTERNATIONAL', 'NON MILK RUN', 'UPS', 'ODFL', 'FEDEX'].includes(routeNum) 
                             ? routeNum 
                             : `MILKRUN ${routeNum}`;
                         departCell.title = `Route: ${routeLabel}\nPick: ${schedule.pick}\nPack: ${schedule.pack}\nLoad: ${schedule.load}\nClose: ${schedule.close}\nDepart: ${schedule.depart}`;

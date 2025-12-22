@@ -95,9 +95,9 @@ const STYLES = {
 - `TRUCK10-480684/12/19/25` → Route 10
 - `TRK3-121925-28695` → Route 3
 - `T4-121925-480660` → Route 4
-- `FEDEXEXPRESSFREIGHT...` → No schedule (shows "—")
-- `LOCKPORT-PTLZ240162-12/22` → LOCKPORT route
-- `SCARBOROUGH-PF5345-12/22/25` → SCARBOROUGH route
+- `FEDEXEXPRESSFREIGHT...` → FEDEX route (14:30)
+- `DGUPS12/22/2025` → UPS route (17:00)
+- `HVBODFL-12/22/25` → ODFL route (17:00)
 
 ## Troubleshooting
 
@@ -153,6 +153,11 @@ For issues or questions:
 - Contact the script author
 
 ## Changelog
+
+### Version 1.9
+- Added carrier routes: UPS (17:00), ODFL (17:00), FedEx (14:30)
+- Improved route detection for DGUPS, HVBODFL, and FEDEX trailers
+- Updated departure schedules for carrier-specific trailers
 
 ### Version 1.8
 - Fixed GDC route detection for formats like "LOCKPORT-PTLZ240162-12/22"
