@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.8
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -110,12 +110,13 @@
         if (upperName.includes('INTERNATIONAL')) return 'INTERNATIONAL';
         if (upperName.includes('NON MILK') || upperName.includes('NONMILK')) return 'NON MILK RUN';
         
-        // Check for GDC destinations
-        if (upperName.includes('LOCKPORT')) return 'LOCKPORT';
-        if (upperName.includes('TAMPA')) return 'TAMPA';
-        if (upperName.includes('TILBURG')) return 'TILBURG';
-        if (upperName.includes('GREENVILLE')) return 'GREENVILLE';
-        if (upperName.includes('SCARBOROUGH')) return 'SCARBOROUGH';
+        // Check for GDC destinations (check at start or after dash/separator)
+        // Examples: "LOCKPORT-PTLZ240162-12/22" or "SCARBOROUGH-PF5345-12/22/25"
+        if (upperName.startsWith('LOCKPORT') || upperName.includes('-LOCKPORT') || upperName.includes('_LOCKPORT')) return 'LOCKPORT';
+        if (upperName.startsWith('TAMPA') || upperName.includes('-TAMPA') || upperName.includes('_TAMPA')) return 'TAMPA';
+        if (upperName.startsWith('TILBURG') || upperName.includes('-TILBURG') || upperName.includes('_TILBURG')) return 'TILBURG';
+        if (upperName.startsWith('GREENVILLE') || upperName.includes('-GREENVILLE') || upperName.includes('_GREENVILLE')) return 'GREENVILLE';
+        if (upperName.startsWith('SCARBOROUGH') || upperName.includes('-SCARBOROUGH') || upperName.includes('_SCARBOROUGH')) return 'SCARBOROUGH';
         
         // Match TRUCK or TRK followed by number
         const match = upperName.match(/(?:TRUCK|TRK)(\d+)/);
@@ -262,8 +263,9 @@
             const allElements = Array.from(iframeDoc.querySelectorAll('ion-button, button, ion-item'));
             const trailerElements = allElements.filter(el => {
                 const text = (el.textContent || el.innerText || '').trim();
-                // Match trailer patterns: FEDEX..., TRUCK..., TRK..., T4-..., etc.
-                return /^(FEDEX|TRUCK\d+|TRK\d+|T\d+-)/i.test(text) && text.length > 5 && text.length < 50;
+                // Match trailer patterns: FEDEX..., TRUCK..., TRK..., T4-..., GDC destinations, etc.
+                const isTrailer = /^(FEDEX|TRUCK\d+|TRK\d+|T\d+-|LOCKPORT|TAMPA|TILBURG|GREENVILLE|SCARBOROUGH|DGUPS|HVBODFL)/i.test(text) && text.length > 5 && text.length < 100;
+                return isTrailer;
             });
 
             if (trailerElements.length === 0) {
@@ -310,6 +312,11 @@
                 const routeNum = extractRouteNumber(trailerName);
                 const schedule = routeNum ? DEPARTURE_SCHEDULE[routeNum] : null;
                 const departTime = schedule ? schedule.depart : null;
+                
+                // Debug logging
+                if (trailerName && (trailerName.includes('LOCKPORT') || trailerName.includes('SCARBOROUGH') || trailerName.includes('TAMPA') || trailerName.includes('TILBURG') || trailerName.includes('GREENVILLE'))) {
+                    console.log(`[Hydra Departure] Trailer: ${trailerName}, Route: ${routeNum}, Schedule:`, schedule ? 'Found' : 'Not found', 'Depart:', departTime);
+                }
 
                 // Create departure cell
                 const departCell = document.createElement('div');
@@ -334,7 +341,10 @@
                     departCell.innerHTML = `${departTime}<br><small style="font-size: 11px;">${timeUntil}</small>`;
                     
                     if (schedule) {
-                        departCell.title = `Route: MILKRUN ${routeNum}\nPick: ${schedule.pick}\nPack: ${schedule.pack}\nLoad: ${schedule.load}\nClose: ${schedule.close}\nDepart: ${schedule.depart}`;
+                        const routeLabel = ['LOCKPORT', 'TAMPA', 'TILBURG', 'GREENVILLE', 'SCARBOROUGH', 'INTERNATIONAL', 'NON MILK RUN'].includes(routeNum) 
+                            ? routeNum 
+                            : `MILKRUN ${routeNum}`;
+                        departCell.title = `Route: ${routeLabel}\nPick: ${schedule.pick}\nPack: ${schedule.pack}\nLoad: ${schedule.load}\nClose: ${schedule.close}\nDepart: ${schedule.depart}`;
                     }
                 } else {
                     departCell.style.cssText = `
