@@ -97,7 +97,9 @@ const STYLES = {
 - `T4-121925-480660` → Route 4
 - `FEDEXEXPRESSFREIGHT...` → FEDEX route (14:30)
 - `DGUPS12/22/2025` → UPS route (17:00)
+- `VORUPS12222512PM` → UPS route (17:00)
 - `HVBODFL-12/22/25` → ODFL route (17:00)
+- `ODFL-493528-12/22/25-DS` → ODFL route (17:00)
 
 ## Troubleshooting
 
@@ -153,6 +155,11 @@ For issues or questions:
 - Contact the script author
 
 ## Changelog
+
+### Version 1.10
+- Fixed route detection for VORUPS trailers (now detects as UPS route)
+- Fixed route detection for ODFL- prefix trailers (e.g., "ODFL-493528-12/22/25-DS")
+- Improved filter pattern to include VORUPS and ODFL prefixes
 
 ### Version 1.9
 - Added carrier routes: UPS (17:00), ODFL (17:00), FedEx (14:30)

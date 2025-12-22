@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.9
+// @version      1.10
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -123,8 +123,8 @@
         if (upperName.startsWith('SCARBOROUGH') || upperName.includes('-SCARBOROUGH') || upperName.includes('_SCARBOROUGH')) return 'SCARBOROUGH';
         
         // Check for carrier routes (UPS, ODFL, FedEx)
-        // Examples: "DGUPS12/22/2025" or "HVBODFL-12/22/25" or "FEDEXEXPRESSFREIGHT..."
-        if (upperName.includes('DGUPS') || upperName.startsWith('UPS')) return 'UPS';
+        // Examples: "DGUPS12/22/2025", "VORUPS12222512PM", "HVBODFL-12/22/25", "ODFL-493528-12/22/25-DS", or "FEDEXEXPRESSFREIGHT..."
+        if (upperName.includes('DGUPS') || upperName.includes('VORUPS') || upperName.includes('UPS')) return 'UPS';
         if (upperName.includes('HVBODFL') || upperName.includes('ODFL')) return 'ODFL';
         if (upperName.includes('FEDEX')) return 'FEDEX';
         
@@ -273,8 +273,8 @@
             const allElements = Array.from(iframeDoc.querySelectorAll('ion-button, button, ion-item'));
             const trailerElements = allElements.filter(el => {
                 const text = (el.textContent || el.innerText || '').trim();
-                // Match trailer patterns: FEDEX..., TRUCK..., TRK..., T4-..., GDC destinations, etc.
-                const isTrailer = /^(FEDEX|TRUCK\d+|TRK\d+|T\d+-|LOCKPORT|TAMPA|TILBURG|GREENVILLE|SCARBOROUGH|DGUPS|HVBODFL)/i.test(text) && text.length > 5 && text.length < 100;
+                // Match trailer patterns: FEDEX..., TRUCK..., TRK..., T4-..., GDC destinations, UPS variants, ODFL variants, etc.
+                const isTrailer = /^(FEDEX|TRUCK\d+|TRK\d+|T\d+-|LOCKPORT|TAMPA|TILBURG|GREENVILLE|SCARBOROUGH|DGUPS|VORUPS|HVBODFL|ODFL)/i.test(text) && text.length > 5 && text.length < 100;
                 return isTrailer;
             });
 
