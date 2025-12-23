@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.14
+// @version      1.15
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -76,7 +76,7 @@
         '11': { pick: '19:25', pack: '20:25', load: '21:25', close: '21:40', depart: '21:45' },
         '12': { pick: '19:25', pack: '20:25', load: '21:25', close: '21:40', depart: '21:45' },
         '13': { pick: '23:10', pack: '00:10', load: '01:10', close: '01:25', depart: '01:30' },
-        '31': { pick: '19:10', pack: '20:10', load: '21:10', close: '21:25', depart: '21:30' },
+        '31': { pick: '21:10', pack: '22:10', load: '23:10', close: '23:25', depart: '23:30' },
         '35': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
         '36': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
         // GDC Routes
@@ -86,7 +86,7 @@
         'GREENVILLE': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
         'SCARBOROUGH': { pick: '14:10', pack: '15:10', load: '16:10', close: '16:25', depart: '16:30' },
         // Carrier Routes
-        'UPS': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
+        'UPS': { pick: '13:00', pack: '14:00', load: '15:00', close: '15:15', depart: '15:30' },
         'ODFL': { pick: '14:40', pack: '15:40', load: '16:40', close: '16:55', depart: '17:00' },
         'FEDEX': { pick: '12:00', pack: '13:00', load: '14:00', close: '14:15', depart: '14:30' },
     };

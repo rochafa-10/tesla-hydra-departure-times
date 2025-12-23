@@ -209,6 +209,11 @@ For issues or questions:
 
 ## Changelog
 
+### Version 1.15
+- Fixed route 31 departure time: 23:30 (was 21:30)
+- Fixed UPS departure time: 15:30 (was 17:00)
+- Updated schedule times for both routes
+
 ### Version 1.14
 - Updated urgency thresholds: Urgent < 10min, Warning < 30min, Normal > 30min
 - Adjusted alert thresholds to match new urgency levels
