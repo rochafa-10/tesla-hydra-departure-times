@@ -209,6 +209,11 @@ For issues or questions:
 
 ## Changelog
 
+### Version 1.16
+- Added new routes: 6, 9, 15, 17, 20, 23, 26, 27, 28, 30, 32, 33, 34
+- Updated departure times based on latest schedule
+- Note: Routes 15, 17, 20, 23, 26, 27 run on specific days (Tue/Thu or Tue/Fri)
+
 ### Version 1.15
 - Fixed route 31 departure time: 23:30 (was 21:30)
 - Fixed UPS departure time: 15:30 (was 17:00)
