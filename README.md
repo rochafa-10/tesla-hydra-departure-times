@@ -209,6 +209,14 @@ For issues or questions:
 
 ## Changelog
 
+### Version 1.17
+- Updated route 6: Pick 23:10 → Depart 1:30 (was 00:30 → 1:30)
+- Updated route 9: Pick 0:10 → Depart 2:30 (was 1:30 → 2:30)
+- Added route 14: Pick 23:10 → Depart 1:30
+- Updated route 23: Pick 4:25 → Depart 6:45 (was 2:30 → 3:30)
+- Updated route 26: Pick 23:10 → Depart 1:30 (was 00:30 → 1:30)
+- Updated route 27: Pick 23:10 → Depart 1:30 (was 00:30 → 1:30)
+
 ### Version 1.16
 - Added new routes: 6, 9, 15, 17, 20, 23, 26, 27, 28, 30, 32, 33, 34
 - Updated departure times based on latest schedule

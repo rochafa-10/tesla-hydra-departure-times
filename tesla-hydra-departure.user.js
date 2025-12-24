@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tesla Hydra - Trailer Departure Times
 // @namespace    http://tampermonkey.net/
-// @version      1.16
+// @version      1.17
 // @description  Display trailer departure times on Tesla Hydra Load page
 // @author       Fabricio Rocha
 // @match        https://mfs-synergy.tesla.com/hydra/load*
@@ -70,20 +70,21 @@
         '3':  { pick: '23:45', pack: '00:45', load: '00:45', close: '00:30', depart: '00:45' },
         '4':  { pick: '19:40', pack: '20:40', load: '21:40', close: '21:55', depart: '22:00' },
         '5':  { pick: '00:00', pack: '01:00', load: '01:00', close: '00:45', depart: '01:00' },
-        '6':  { pick: '00:30', pack: '01:30', load: '01:30', close: '01:15', depart: '01:30' },
+        '6':  { pick: '23:10', pack: '00:10', load: '01:10', close: '01:25', depart: '01:30' },
         '7':  { pick: '21:10', pack: '22:10', load: '23:10', close: '23:25', depart: '23:30' },
         '8':  { pick: '21:10', pack: '22:10', load: '23:10', close: '23:25', depart: '23:30' },
-        '9':  { pick: '01:30', pack: '02:30', load: '02:30', close: '02:15', depart: '02:30' },
+        '9':  { pick: '00:10', pack: '01:10', load: '02:10', close: '02:25', depart: '02:30' },
         '10': { pick: '19:40', pack: '20:40', load: '21:40', close: '21:55', depart: '22:00' },
         '11': { pick: '19:25', pack: '20:25', load: '21:25', close: '21:40', depart: '21:45' },
         '12': { pick: '19:25', pack: '20:25', load: '21:25', close: '21:40', depart: '21:45' },
         '13': { pick: '23:10', pack: '00:10', load: '01:10', close: '01:25', depart: '01:30' },
+        '14': { pick: '23:10', pack: '00:10', load: '01:10', close: '01:25', depart: '01:30' },
         '15': { pick: '03:00', pack: '04:00', load: '04:00', close: '03:45', depart: '04:00' }, // Tue/Fri
         '17': { pick: '02:30', pack: '03:30', load: '03:30', close: '03:15', depart: '03:30' }, // Tue/Thu
         '20': { pick: '04:30', pack: '05:30', load: '05:30', close: '05:15', depart: '05:30' }, // Tue/Thu
-        '23': { pick: '02:30', pack: '03:30', load: '03:30', close: '03:15', depart: '03:30' }, // Tue/Thu
-        '26': { pick: '00:30', pack: '01:30', load: '01:30', close: '01:15', depart: '01:30' }, // Tue/Thu
-        '27': { pick: '00:30', pack: '01:30', load: '01:30', close: '01:15', depart: '01:30' }, // Tue/Thu
+        '23': { pick: '04:25', pack: '05:25', load: '06:25', close: '06:40', depart: '06:45' }, // Tue/Thu
+        '26': { pick: '23:10', pack: '00:10', load: '01:10', close: '01:25', depart: '01:30' }, // Tue/Thu
+        '27': { pick: '23:10', pack: '00:10', load: '01:10', close: '01:25', depart: '01:30' }, // Tue/Thu
         '28': { pick: '05:00', pack: '06:00', load: '06:00', close: '05:45', depart: '06:00' },
         '30': { pick: '03:45', pack: '04:45', load: '04:45', close: '04:30', depart: '04:45' },
         '31': { pick: '21:10', pack: '22:10', load: '23:10', close: '23:25', depart: '23:30' },
